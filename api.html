@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Reproducción de video</title>
+  
+  </head>
+  <body>
+    <input type="file" id="fileInput" accept="video/*">
+    <video id="videoPlayer" controls></video>
+    <div id="controls">
+      <button id="playButton">Reproducir</button>
+      <button id="pauseButton">Pausar</button>
+      <button id="volumeUpButton">Vol +</button>
+      <button id="volumeDownButton">Vol -</button>
+    </div>
+
+    
+    <script>
+      var fileInput = document.getElementById('fileInput');
+      var videoElement = document.getElementById('videoPlayer');
+
+      fileInput.addEventListener('change', function(event) {
+        var file = event.target.files[0];
+        
+      if (file && file.type.startsWith('video/')) {
+          var videoURL = URL.createObjectURL(file);
+          videoElement.src = videoURL;
+          showAlert('Cargando video...', 2000, function() {
+            videoElement.play();
+          });
+        } else {
+          alert('Por favor, selecciona un archivo de video válido.');
+        }
+      });
+
+      function showAlert(message, duration, callback) {
+        alert(message);
+        setTimeout(callback, duration);
+      }
+
+
+
+      var playButton = document.getElementById('playButton');
+      playButton.addEventListener('click', function() {
+        videoElement.play();
+      });
+
+      var pauseButton = document.getElementById('pauseButton');
+      pauseButton.addEventListener('click', function() {
+        videoElement.pause();
+      });
+
+      var volumeUpButton = document.getElementById('volumeUpButton');
+      volumeUpButton.addEventListener('click', function() {
+        if (videoElement.volume < 1) {
+          videoElement.volume += 0.1;
+        }
+      });
+
+      var volumeDownButton = document.getElementById('volumeDownButton');
+      volumeDownButton.addEventListener('click', function() {
+        if (videoElement.volume > 0) {
+          videoElement.volume -= 0.1;
+        }
+      });
+    </script>
+  </body>
+</html>
